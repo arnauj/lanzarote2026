@@ -1,0 +1,5 @@
+hola:hola
+adios:adios
+portfolio:Portfolio
+acercade:Acerca de
+contacto:Contacto

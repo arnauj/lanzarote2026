@@ -1,0 +1,8 @@
+# Definir una variable de entorno llamada "MY_API_KEY"
+SetEnv MY_API_KEY "1234567890abcdef"
+
+# Definir otra variable de entorno llamada "DB_HOST"
+SetEnv DB_HOST "localhost"
+
+# Definir una variable de entorno para el entorno de la aplicación
+SetEnv APP_ENV "production"

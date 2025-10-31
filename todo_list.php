@@ -1,4 +1,5 @@
-<?php
+<?
+
 $user = "lanzarote";
 $password = "lanza.pass";
 $database = "lanzarote";
