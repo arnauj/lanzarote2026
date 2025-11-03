@@ -23,6 +23,7 @@
                         <!-- Google fonts-->
                         <link href=\"https://fonts.googleapis.com/css?family=Montserrat:400,700\" rel=\"stylesheet\" type=\"text/css\" />
                         <link href=\"https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic\" rel=\"stylesheet\" type=\"text/css\" />
+                        <link rel=\"stylesheet\" href=\"/node_modules/bootstrap-icons/font/bootstrap-icons.css\">
                         <!-- Core theme CSS (includes Bootstrap)-->
                         <link href=\"/assets/plantilla/css/styles.css\" rel=\"stylesheet\" />
                         <link href=\"/css/estilos.css\" rel=\"stylesheet\" />
@@ -304,6 +305,26 @@
             </body>
         </html>
         ";
+
+        }
+
+
+        static function seccion($seccion)
+        {
+
+            switch($seccion)
+            {
+                case 'usuarios':
+                    $contenido = Usuario::pintar();
+                break;
+
+                default:
+                    $contenido = Portada::pintar();
+                break;
+            }
+
+            return $contenido;
+
 
         }
 

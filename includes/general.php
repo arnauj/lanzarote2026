@@ -18,6 +18,12 @@ spl_autoload_register(function ($class) {
         case 'Idioma':
             require_once "includes/idioma.php";
         break;
+        case 'Portada':
+            require_once "includes/paginas/portada.php";
+        break;
+        case 'Usuario':
+            require_once "includes/paginas/usuario.php";
+        break;
     }
 
 });
