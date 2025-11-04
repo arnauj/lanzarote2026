@@ -2,8 +2,6 @@
 
 define('LISTADO_TOTAL_POR_PAGINA',10);
 
-
-
 //Devuelve fechas en formato dd/mm/yyyy
 function fmto_fecha($aaaammdd,$separador = '/')
 {
@@ -14,9 +12,7 @@ function fmto_fecha($aaaammdd,$separador = '/')
     $mes  = substr($aaaammdd,4,2);
     $dia  = substr($aaaammdd,6,2);
 
-
     return "{$dia}{$separador}{$mes}{$separador}{$anho}";
-
 }
 
 
@@ -47,5 +43,4 @@ spl_autoload_register(function ($class) {
             require_once "includes/campo.php";
         break;
     }
-
 });
