@@ -1,5 +1,7 @@
 <?php
 
+
+
 class Usuario
 {
 
@@ -10,7 +12,7 @@ class Usuario
         if(is_numeric($_GET['pagina']))
         {
             $pagina = $_GET['pagina'];
-            $offset = 10 * $pagina;
+            $offset = LISTADO_TOTAL_POR_PAGINA * $pagina;
         }
         else{
             $offset = '0';
@@ -23,7 +25,7 @@ class Usuario
             FROM   usuarios
 
             ORDER BY nick
-            limit 10
+            limit ". LISTADO_TOTAL_POR_PAGINA ."
             offset {$offset}
             
 
@@ -48,15 +50,15 @@ class Usuario
                     <td>{$registro['nombre']}</td>
                     <td>{$registro['apellidos']}</td>
                     <td>{$registro['email']}</td>
-                    <td>{$registro['fecha_alta']}</td>
-                    <td>{$registro['fecha_baja']}</td>
+                    <td>". fmto_fecha($registro['fecha_alta']) . "</td>
+                    <td>". fmto_fecha($registro['fecha_baja']) . "</td>
                 </tr>
             ";
 
         }
 
-        $pagina_anterior = ($pagina != 1)? "<li class=\"page-item\"><a class=\"page-link\" href=\"/?seccion=usuarios&oper=list&pagina=". ($pagina-2) ."\">Anterior</a></li>" : '';
 
+        $barra_navegacion = Template::navegacion($query->total,$pagina);
 
 
 
@@ -83,16 +85,7 @@ class Usuario
             {$listado_usuarios}
             </tbody>
             </table>
-
-            <nav>
-                <ul class=\"pagination\">
-                    {$pagina_anterior}
-                    <li class=\"page-item\"><a class=\"page-link\" href=\"/?seccion=usuarios&oper=list&pagina={$pagina}\">Siguiente</a></li>
-                </ul>
-            </nav>
-
-
-
+            {$barra_navegacion}
             <a href=\"/?seccion=usuarios&oper=alta&id=\" class=\"btn btn-primary\"><i class=\"bi bi-file-earmark-plus\"></i> Alta usuario</a>
         </section>
         </div>

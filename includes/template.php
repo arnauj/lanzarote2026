@@ -9,7 +9,7 @@
             return "
             
                 <!DOCTYPE html>
-                <html lang=\"en\">
+                <html lang=\"es\">
                     <head>
                         <meta charset=\"utf-8\" />
                         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\" />
@@ -328,5 +328,22 @@
 
         }
 
+        static function navegacion($total_registros, $pagina)
+        {
+            $pagina_siguiente = ($total_registros == LISTADO_TOTAL_POR_PAGINA)?  "<li class=\"page-item\"><a class=\"page-link\" href=\"/?seccion=usuarios&oper=list&pagina={$pagina}\">Siguiente</a></li>" : '';
+            $pagina_anterior  = ($pagina != 1)? "<li class=\"page-item\"><a class=\"page-link\" href=\"/?seccion=usuarios&oper=list&pagina=". ($pagina-2) ."\">Anterior</a></li>" : '';
+
+            return "
+                <nav>
+                    <ul class=\"pagination\">
+                        {$pagina_anterior}
+                        {$pagina_siguiente}
+                    </ul>
+                </nav>
+            ";
+
+
+
+        }
 
     }
