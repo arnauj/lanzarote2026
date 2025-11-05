@@ -2,6 +2,8 @@
 
 define('LISTADO_TOTAL_POR_PAGINA',10);
 
+define('EREG_VALIDACION_EMAIL', '/^[A-z0-9\\._-]+@[A-z0-9][A-z0-9-]*(\\.[A-z0-9_-]+)*\\.([A-z]{2,6})$/');
+
 //Devuelve fechas en formato dd/mm/yyyy
 function fmto_fecha($aaaammdd,$separador = '/')
 {

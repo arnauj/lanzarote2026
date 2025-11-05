@@ -48,9 +48,9 @@
                         </button>
                         <div class=\"collapse navbar-collapse\" id=\"navbarResponsive\">
                             <ul class=\"navbar-nav ms-auto\">
-                                <li class=\"nav-item mx-0 mx-lg-1\"><a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"#portfolio\">". Idioma::getInstancia()::$lit['portfolio'] ."</a></li>
-                                <li class=\"nav-item mx-0 mx-lg-1\"><a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"#about\">". Idioma::getInstancia()::$lit['acercade'] ."</a></li>
-                                <li class=\"nav-item mx-0 mx-lg-1\"><a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"#contact\">". Idioma::getInstancia()::$lit['contacto'] ."</a></li>
+                                <li class=\"nav-item mx-0 mx-lg-1\"><a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"#portfolio\">". Idioma::lit('portfolio') ."</a></li>
+                                <li class=\"nav-item mx-0 mx-lg-1\"><a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"#about\">". Idioma::lit('acercade') ."</a></li>
+                                <li class=\"nav-item mx-0 mx-lg-1\"><a class=\"nav-link py-3 px-0 px-lg-3 rounded\" href=\"#contact\">". Idioma::lit('contacto') ."</a></li>
                             </ul>
                         </div>
                     </div>

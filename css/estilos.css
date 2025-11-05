@@ -13,3 +13,13 @@
 .card{
     margin-bottom:5px
 }
+
+span.error{
+    color:#ff0000;
+}
+input.error{
+    border-color:#ff0000;
+}
+.centrado{
+    text-align:center
+}

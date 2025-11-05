@@ -38,6 +38,12 @@ class Idioma
         return self::$instancia;
     }
 
+    static function lit($campo)
+    {
+        self::getInstancia();
+        return self::$lit[$campo];
+    }
+
     public function __clone(){}
 
 
