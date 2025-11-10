@@ -36,10 +36,17 @@
             return self::$instancia;
         }
 
-        static function val($campo)
+        static function val($campo,$set_value = '')
         {
-            self::getInstancia();
-            return self::$val[$campo];
+            if(empty($set_value))
+            {
+                self::getInstancia();
+                return self::$val[$campo];
+            }
+            else
+            {
+                self::$val[$campo] = $set_value;
+            }
         }
 
 

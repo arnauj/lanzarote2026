@@ -13,8 +13,10 @@ class Usuario
         switch(Campo::val('oper'))
         {
             case 'cons':
+                $contenido = self::cons();
             break;
             case 'modi':
+                $contenido = self::modi();
             break;
             case 'baja':
             break;
@@ -46,6 +48,178 @@ class Usuario
 
     }
 
+    static function validacion()
+    {
+
+        //$errores = stdclass();
+        $errores = [];
+        $errores['cantidad'] = 0;
+        if(Campo::val('paso'))
+        {
+
+
+            if(empty(Campo::val('nick')))
+            {
+                /*
+                $errores->literal_error_nick = ' <span class="error">'. Idioma::lit('valor_obligatorio') .'</span>';
+                $errores->style_error_nick = 'error';
+                $errores->numero_errores++;
+                */
+
+                $errores['literal_error_nick'] = ' <span class="error">'. Idioma::lit('valor_obligatorio') .'</span>';
+                $errores['style_error_nick']   = 'error';
+                $errores['cantidad']++;
+
+            }
+
+            if(empty(Campo::val('password')))
+            {
+                $errores['literal_error_password'] = ' <span class="error">'. Idioma::lit('valor_obligatorio') .'</span>';
+                $errores['style_error_password']   = 'error';
+                $errores['cantidad']++;
+            }
+
+            if(empty(Campo::val('nombre')))
+            {
+                $errores['literal_error_nombre'] = ' <span class="error">'. Idioma::lit('valor_obligatorio') .'</span>';
+                $errores['style_error_nombre']   = 'error';
+                $errores['cantidad']++;
+            }
+            if(empty(Campo::val('apellidos')))
+            {
+                $errores['literal_error_apellidos'] = ' <span class="error">'. Idioma::lit('valor_obligatorio') .'</span>';
+                $errores['style_error_apellidos']   = 'error';
+                $errores['cantidad']++;
+            }
+
+            if(!preg_match(EREG_VALIDACION_EMAIL, Campo::val('email')))
+            {
+                $errores['literal_error_email'] = ' <span class="error">'. Idioma::lit('valor_obligatorio') .'</span>';
+                $errores['style_error_email'] = 'error';
+                $errores['cantidad']++;
+            }
+
+        }
+
+        return $errores;
+
+    }
+
+    static function formulario($boton_enviar='',$errores=[],$mensaje_exito='',$disabled='')
+    {
+        return "
+        {$mensaje_exito}
+        <form action=\"/?seccion=usuarios\" method=\"POST\">
+            <input type=\"hidden\" name=\"paso\" value=\"1\" />
+            <input type=\"hidden\" name=\"oper\" value=\"". Campo::val('oper') ."\" />
+            <input type=\"hidden\" name=\"id\"   value=\"". Campo::val('id') ."\" />
+            <div class=\"mb-3\">
+                <label for=\"idnick\" class=\"form-label\">". Idioma::lit('nick')."</label>
+                {$errores['literal_error_nick']}
+                <input {$disabled} value=\"". Campo::val('nick') ."\" name=\"nick\" type=\"text\" class=\"{$errores['style_error_nick']} form-control\" id=\"idnick\" placeholder=\"". Idioma::lit('pseudonimo')."\">
+            </div>
+            <div class=\"mb-3\">
+                <label for=\"idpassword\" class=\"form-label\">". Idioma::lit('password')."</label>
+                {$errores['literal_error_password']}
+                <input {$disabled} value=\"". Campo::val('password') ."\" name=\"password\" type=\"password\" class=\"{$errores['style_error_password']} form-control\" id=\"idpassword\">
+            </div>
+
+            <div class=\"mb-3\">
+                <label for=\"idnombre\" class=\"form-label\">". Idioma::lit('nombre')."</label>
+                {$errores['literal_error_nombre']}
+                <input {$disabled} value=\"". Campo::val('nombre') ."\" name=\"nombre\" type=\"text\" class=\"{$errores['style_error_nombre']} form-control\" id=\"idnombre\" placeholder=\"". Idioma::lit('escribe_tu_nombre')."\">
+            </div>
+
+            <div class=\"mb-3\">
+                <label for=\"idapellidos\" class=\"form-label\">". Idioma::lit('apellidos')."</label>
+                {$errores['literal_error_apellidos']}
+                <input {$disabled} value=\"". Campo::val('apellidos') ."\" name=\"apellidos\" type=\"text\" class=\"{$errores['style_error_apellidos']} form-control\" id=\"idapellidos\" placeholder=\"". Idioma::lit('escribe_tus_apellidos')."\">
+            </div>
+
+            <div class=\"mb-3\">
+                <label for=\"idemail\" class=\"form-label\">". Idioma::lit('email')."</label>
+                {$errores['literal_error_email']}
+                <input {$disabled} value=\"". Campo::val('email') ."\" name=\"email\" type=\"email\" class=\"{$errores['style_error_email']} form-control\" id=\"idemail\" placeholder=\"name@example.com\">
+            </div>
+            {$boton_enviar}
+        </form>
+        ";
+    }
+
+    static function sincro_form_bbdd($registro)
+    {
+        Campo::val('nick'     ,$registro['nick']);
+        Campo::val('nombre'   ,$registro['nombre']);
+        Campo::val('apellidos',$registro['apellidos']);
+        Campo::val('email'    ,$registro['email']);
+
+    }
+
+
+    static function cons()
+    {
+        $query = new Query("
+            SELECT *
+            FROM   usuarios
+            WHERE  id = '". Campo::val('id') ."'
+        ");
+
+        $registro = $query->recuperar();
+
+        self::sincro_form_bbdd($registro);
+
+        return self::formulario('',[],''," disabled=\"disabled\" ");
+    }
+
+    static function modi()
+    {
+        $boton_enviar = "<button type=\"submit\" class=\"btn btn-primary\">". Idioma::lit('enviar')."</button>";
+        $errores = [];
+        $mensaje_exito='';
+        $disabled='';
+        if(!Campo::val('paso'))
+        {
+            $query = new Query("
+                SELECT *
+                FROM   usuarios
+                WHERE  id = '". Campo::val('id') ."'
+            ");
+
+            $registro = $query->recuperar();
+
+            self::sincro_form_bbdd($registro);
+
+        }
+        else
+        {
+
+            $errores = self::validacion();
+
+            if(!$errores['cantidad'])
+            {
+
+
+                $query = new Query("
+                    UPDATE usuarios
+                    SET  nick      = '". Campo::val('nick')      ."'
+                        ,nombre    = '". Campo::val('nombre')    ."'
+                        ,apellidos = '". Campo::val('apellidos') ."'
+                        ,email     = '". Campo::val('email')     ."'
+                        ,password  = '". Campo::val('password')  ."'
+                    WHERE id = '". Campo::val('id') ."';
+                
+                ");
+                $mensaje_exito = '<p class="centrado alert alert-success" >' . Idioma::lit('operacion_exito') .  '</p>';
+
+                $disabled =" disabled=\"disabled\" ";
+                $boton_enviar = '';
+            }
+
+
+        }
+
+        return self::formulario($boton_enviar,$errores,$mensaje_exito,$disabled);
+    }
 
     static function alta()
     {
@@ -58,46 +232,15 @@ class Usuario
             ,password      VARCHAR(255)
         */
         $boton_enviar = "<button type=\"submit\" class=\"btn btn-primary\">". Idioma::lit('enviar')."</button>";
-        $literal_error_nick = '';
-        $errores = False;
+        $errores = [];
+        $mensaje_exito='';
+        $disabled='';
         if(Campo::val('paso'))
         {
-            if(empty(Campo::val('nick')))
-            {
-                $literal_error_nick = ' <span class="error">'. Idioma::lit('valor_obligatorio') .'</span>';
-                $style_error_nick = 'error';
-                $errores = True;
-            }
 
-            if(empty(Campo::val('password')))
-            {
-                $literal_error_password = ' <span class="error">'. Idioma::lit('valor_obligatorio') .'</span>';
-                $style_error_password = 'error';
-                $errores = True;
-            }
+            $errores = self::validacion();
 
-            if(empty(Campo::val('nombre')))
-            {
-                $literal_error_nombre = ' <span class="error">'. Idioma::lit('valor_obligatorio') .'</span>';
-                $style_error_nombre = 'error';
-                $errores = True;
-            }
-            if(empty(Campo::val('apellidos')))
-            {
-                $literal_error_apellidos = ' <span class="error">'. Idioma::lit('valor_obligatorio') .'</span>';
-                $style_error_apellidos = 'error';
-                $errores = True;
-            }
-
-            if(!preg_match(EREG_VALIDACION_EMAIL, Campo::val('email')))
-            {
-                $literal_error_email = ' <span class="error">'. Idioma::lit('valor_obligatorio') .'</span>';
-                $style_error_email = 'error';
-                $errores = True;
-            }
-
-
-            if(!$errores)
+            if(!$errores['cantidad'])
             {
                 $query = new Query("
                     INSERT INTO usuarios
@@ -127,44 +270,7 @@ class Usuario
 
         }
 
-        return "
-        {$mensaje_exito}
-        <form action=\"/?seccion=usuarios\" method=\"POST\">
-            <input type=\"hidden\" name=\"paso\" value=\"1\" />
-            <input type=\"hidden\" name=\"oper\" value=\"alta\" />
-            <div class=\"mb-3\">
-                <label for=\"idnick\" class=\"form-label\">". Idioma::lit('nick')."</label>
-                {$literal_error_nick}
-                <input {$disabled} value=\"". Campo::val('nick') ."\" name=\"nick\" type=\"text\" class=\"{$style_error_nick} form-control\" id=\"idnick\" placeholder=\"". Idioma::lit('pseudonimo')."\">
-            </div>
-            <div class=\"mb-3\">
-                <label for=\"idpassword\" class=\"form-label\">". Idioma::lit('password')."</label>
-                {$literal_error_password}
-                <input {$disabled} value=\"". Campo::val('password') ."\" name=\"password\" type=\"password\" class=\"{$style_error_password} form-control\" id=\"idpassword\">
-            </div>
-
-            <div class=\"mb-3\">
-                <label for=\"idnombre\" class=\"form-label\">". Idioma::lit('nombre')."</label>
-                {$literal_error_nombre}
-                <input {$disabled} value=\"". Campo::val('nombre') ."\" name=\"nombre\" type=\"text\" class=\"{$style_error_nombre} form-control\" id=\"idnombre\" placeholder=\"". Idioma::lit('escribe_tu_nombre')."\">
-            </div>
-
-            <div class=\"mb-3\">
-                <label for=\"idapellidos\" class=\"form-label\">". Idioma::lit('apellidos')."</label>
-                {$literal_error_apellidos}
-                <input {$disabled} value=\"". Campo::val('apellidos') ."\" name=\"apellidos\" type=\"text\" class=\"{$style_error_apellidos} form-control\" id=\"idapellidos\" placeholder=\"". Idioma::lit('escribe_tus_apellidos')."\">
-            </div>
-
-            <div class=\"mb-3\">
-                <label for=\"idemail\" class=\"form-label\">". Idioma::lit('email')."</label>
-                {$literal_error_email}
-                <input {$disabled} value=\"". Campo::val('email') ."\" name=\"email\" type=\"email\" class=\"{$style_error_email} form-control\" id=\"idemail\" placeholder=\"name@example.com\">
-            </div>
-            {$boton_enviar}
-        </form>
-        ";
-
-
+        return self::formulario($boton_enviar,$errores,$mensaje_exito,$disabled);
 
     }
 
