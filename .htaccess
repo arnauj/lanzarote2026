@@ -1,8 +1,7 @@
-# Definir una variable de entorno llamada "MY_API_KEY"
-SetEnv MY_API_KEY "1234567890abcdef"
+RewriteEngine On
 
-# Definir otra variable de entorno llamada "DB_HOST"
-SetEnv DB_HOST "localhost"
 
-# Definir una variable de entorno para el entorno de la aplicación
-SetEnv APP_ENV "production"
+RewriteRule ^([a-z]+)/$ ?seccion=$1 [L]
+RewriteRule ^([a-z]+)/([0-9]+)$ ?seccion=$1&oper=list&pagina=$2 [L]
+RewriteRule ^([a-z]+)/([a-z]+)(?:/([0-9]+))?$ ?seccion=$1&oper=$2&id=$3 [L]
+

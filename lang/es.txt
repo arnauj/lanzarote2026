@@ -4,13 +4,18 @@ portfolio:Portfolio
 acercade:Acerca de
 contacto:Contacto
 titulo:Listado
+titulolist:Listado
 titulocons:Consulta
 tituloalta:Alta
 titulomodi:Modificación
 titulobaja:Baja
 enviar:Enviar
+enviaralta:Alta
+enviarmodi:Modificar
+enviarbaja:Baja
+enviarcons:Consulta
 nick:Nick
-pseudonimo:Pseudónimo
+placeholdernick:Pseudónimo
 password:Contraseña
 nombre:Nombre
 escribe_tu_nombre:Escribe tu nombre...
@@ -20,3 +25,4 @@ email:E-mail
 valor_obligatorio:Campo obligatorio
 operacion_exito:Operación realizada con éxito
 usuarios:Usuarios
+volver:Volver

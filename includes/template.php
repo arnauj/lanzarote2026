@@ -88,8 +88,8 @@
 
         static function navegacion($total_registros, $pagina)
         {
-            $pagina_siguiente = ($total_registros == LISTADO_TOTAL_POR_PAGINA)?  "<li class=\"page-item\"><a class=\"page-link\" href=\"/?seccion=usuarios&oper=list&pagina={$pagina}\">Siguiente</a></li>" : '';
-            $pagina_anterior  = ($pagina != 1)? "<li class=\"page-item\"><a class=\"page-link\" href=\"/?seccion=usuarios&oper=list&pagina=". ($pagina-2) ."\">Anterior</a></li>" : '';
+            $pagina_siguiente = ($total_registros == LISTADO_TOTAL_POR_PAGINA)?  "<li class=\"page-item\"><a class=\"page-link\" href=\"/usuarios/{$pagina}\">Siguiente</a></li>" : '';
+            $pagina_anterior  = ($pagina != 1)? "<li class=\"page-item\"><a class=\"page-link\" href=\"/usuarios/". ($pagina-2) ."\">Anterior</a></li>" : '';
 
             return "
                 <nav>
