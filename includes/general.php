@@ -50,5 +50,17 @@ spl_autoload_register(function ($class) {
         case 'Text':
             require_once "includes/elementos/text.php";
         break;
+        case 'Password':
+            require_once "includes/elementos/password.php";
+        break;
+        case 'Hidden':
+            require_once "includes/elementos/hidden.php";
+        break;
+        case 'IEmail':
+            require_once "includes/elementos/iemail.php";
+        break;
+        case 'Formulario':
+            require_once "includes/formulario.php";
+        break;
     }
 });

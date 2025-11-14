@@ -6,13 +6,16 @@ define('BOTON_ENVIAR',"<button type=\"submit\" class=\"btn btn-primary\">". Idio
 class Usuario
 {
 
-    static $nick;
+    static $nick,$password,$oper,$id,$paso,$nombre,$apellidos,$email;
 
 
     static function pintar()
     {
         $contenido = '';
         $volver = "<a style=\"float:right\" href=\"/usuarios/\" class=\"btn btn-light\"><i class=\"bi bi-arrow-return-left\"></i> ".Idioma::lit('volver')."</a>";
+
+
+
 
         self::inicializacion_campos();
 
@@ -56,102 +59,40 @@ class Usuario
 
     static function inicializacion_campos()
     {
-        self::$nick = new Text(['nombre' => 'nick']);
+        self::$paso      = new Hidden(['nombre' => 'paso']);
+        self::$oper      = new Hidden(['nombre' => 'oper']);
+        self::$id        = new Hidden(['nombre' => 'id']);
+        self::$nick      = new Text(['nombre' => 'nick']);
+        self::$nombre    = new Text(['nombre' => 'nombre']);
+        self::$apellidos = new Text(['nombre' => 'apellidos']);
+        self::$password  = new Password(['nombre' => 'password']);
+        self::$email     = new IEmail(['nombre' => 'email']);
+
+        Formulario::cargar_elemento(self::$paso);
+        Formulario::cargar_elemento(self::$oper);
+        Formulario::cargar_elemento(self::$id);
+        Formulario::cargar_elemento(self::$nick);
+        Formulario::cargar_elemento(self::$password);
+        Formulario::cargar_elemento(self::$nombre);
+        Formulario::cargar_elemento(self::$apellidos);
+        Formulario::cargar_elemento(self::$email);
 
     }
 
-    static function validacion()
-    {
-
-        //$errores = stdclass();
-        $errores = [];
-        $errores['cantidad'] = 0;
-        if(Campo::val('paso'))
-        {
-
-            self::$nick->validar();
-
-            if(empty(Campo::val('password')))
-            {
-                $errores['literal_error_password'] = ' <span class="error">'. Idioma::lit('valor_obligatorio') .'</span>';
-                $errores['style_error_password']   = 'error';
-                $errores['cantidad']++;
-            }
-
-            if(empty(Campo::val('nombre')))
-            {
-                $errores['literal_error_nombre'] = ' <span class="error">'. Idioma::lit('valor_obligatorio') .'</span>';
-                $errores['style_error_nombre']   = 'error';
-                $errores['cantidad']++;
-            }
-            if(empty(Campo::val('apellidos')))
-            {
-                $errores['literal_error_apellidos'] = ' <span class="error">'. Idioma::lit('valor_obligatorio') .'</span>';
-                $errores['style_error_apellidos']   = 'error';
-                $errores['cantidad']++;
-            }
-
-            if(!preg_match(EREG_VALIDACION_EMAIL, Campo::val('email')))
-            {
-                $errores['literal_error_email'] = ' <span class="error">'. Idioma::lit('valor_obligatorio') .'</span>';
-                $errores['style_error_email'] = 'error';
-                $errores['cantidad']++;
-            }
-
-        }
-
-        return $errores;
-
-    }
 
     static function formulario($boton_enviar='',$errores=[],$mensaje_exito='',$disabled='')
     {
-        self::$nick->disabled = $disabled;
-        
-        return "
-        {$mensaje_exito}
-        <form action=\"/usuarios/\" method=\"POST\">
-            <input type=\"hidden\" name=\"paso\" value=\"1\" />
-            <input type=\"hidden\" name=\"oper\" value=\"". Campo::val('oper') ."\" />
-            <input type=\"hidden\" name=\"id\"   value=\"". Campo::val('id') ."\" />
-            ". self::$nick->pintar() ."
+        Formulario::disabled($disabled);
 
+        Campo::val('paso','1');
 
-            <div class=\"mb-3\">
-                <label for=\"idpassword\" class=\"form-label\">". Idioma::lit('password')."</label>
-                {$errores['literal_error_password']}
-                <input {$disabled} value=\"". Campo::val('password') ."\" name=\"password\" type=\"password\" class=\"{$errores['style_error_password']} form-control\" id=\"idpassword\">
-            </div>
+        return Formulario::pintar('/usuarios/',$boton_enviar,$mensaje_exito);
 
-            <div class=\"mb-3\">
-                <label for=\"idnombre\" class=\"form-label\">". Idioma::lit('nombre')."</label>
-                {$errores['literal_error_nombre']}
-                <input {$disabled} value=\"". Campo::val('nombre') ."\" name=\"nombre\" type=\"text\" class=\"{$errores['style_error_nombre']} form-control\" id=\"idnombre\" placeholder=\"". Idioma::lit('escribe_tu_nombre')."\">
-            </div>
-
-            <div class=\"mb-3\">
-                <label for=\"idapellidos\" class=\"form-label\">". Idioma::lit('apellidos')."</label>
-                {$errores['literal_error_apellidos']}
-                <input {$disabled} value=\"". Campo::val('apellidos') ."\" name=\"apellidos\" type=\"text\" class=\"{$errores['style_error_apellidos']} form-control\" id=\"idapellidos\" placeholder=\"". Idioma::lit('escribe_tus_apellidos')."\">
-            </div>
-
-            <div class=\"mb-3\">
-                <label for=\"idemail\" class=\"form-label\">". Idioma::lit('email')."</label>
-                {$errores['literal_error_email']}
-                <input {$disabled} value=\"". Campo::val('email') ."\" name=\"email\" type=\"email\" class=\"{$errores['style_error_email']} form-control\" id=\"idemail\" placeholder=\"name@example.com\">
-            </div>
-            {$boton_enviar}
-        </form>
-        ";
     }
 
     static function sincro_form_bbdd($registro)
     {
-        Campo::val('nick'     ,$registro['nick']);
-        Campo::val('nombre'   ,$registro['nombre']);
-        Campo::val('apellidos',$registro['apellidos']);
-        Campo::val('email'    ,$registro['email']);
-
+        Formulario::sincro_form_bbdd($registro);
     }
 
 
@@ -227,9 +168,9 @@ class Usuario
         else
         {
 
-            $errores = self::validacion();
+            $numero_errores = Formulario::validacion();
 
-            if(!$errores['cantidad'])
+            if(!$numero_errores)
             {
 
 
@@ -272,9 +213,9 @@ class Usuario
         if(Campo::val('paso'))
         {
 
-            $errores = self::validacion();
+            $numero_errores = Formulario::validacion();
 
-            if(!$errores['cantidad'])
+            if(!$numero_errores)
             {
                 $query = new Query("
                     INSERT INTO usuarios

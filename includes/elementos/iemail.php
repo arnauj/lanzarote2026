@@ -1,10 +1,12 @@
 <?php
 
-    class Text extends Elemento
+    class IEmail extends Elemento
     {
 
         function __construct($datos=[])
         {
+            $datos['type'] = 'email';
+
             parent::__construct($datos);
 
         }
