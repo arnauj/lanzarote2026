@@ -35,11 +35,11 @@ spl_autoload_register(function ($class) {
         case 'Idioma':
             require_once "includes/idioma.php";
         break;
-        case 'Portada':
-            require_once "includes/paginas/portada.php";
+        case 'PortadaController':
+            require_once "includes/paginas/portada.controller.php";
         break;
-        case 'Usuario':
-            require_once "includes/paginas/usuario.php";
+        case 'UsuarioController':
+            require_once "includes/paginas/usuario.controller.php";
         break;
         case 'Campo':
             require_once "includes/campo.php";
@@ -61,6 +61,12 @@ spl_autoload_register(function ($class) {
         break;
         case 'Formulario':
             require_once "includes/formulario.php";
+        break;
+        case 'Base':
+                require_once "includes/modelos/base.php";
+        break;
+        case 'Usuario':
+                require_once "includes/modelos/usuario.php";
         break;
     }
 });

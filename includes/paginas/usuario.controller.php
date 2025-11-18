@@ -3,7 +3,7 @@
 
 define('BOTON_ENVIAR',"<button type=\"submit\" class=\"btn btn-primary\">". Idioma::lit('enviar'.Campo::val('oper'))."</button>");
 
-class Usuario
+class UsuarioController
 {
 
     static $nick,$password,$oper,$id,$paso,$nombre,$apellidos,$email;
@@ -217,6 +217,16 @@ class Usuario
 
             if(!$numero_errores)
             {
+                $nuevo_usuario = [];
+                $nuevo_usuario['nick']      = Campo::val('nick');
+                $nuevo_usuario['nombre']    = Campo::val('nombre');
+                $nuevo_usuario['apellidos'] = Campo::val('apellidos');
+                $nuevo_usuario['email']     = Campo::val('email');
+                $nuevo_usuario['password']  = Campo::val('password');
+
+                $usuario = new Usuario();
+                $usuario->insertar($nuevo_usuario);
+
                 $query = new Query("
                     INSERT INTO usuarios
                     (
