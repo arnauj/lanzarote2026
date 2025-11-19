@@ -22,6 +22,14 @@ class Base
         }
     }
 
+    function eliminar($id)
+    {
+        $query = new Query("
+            DELETE FROM '". $this->tabla ."'
+            WHERE id = '{$id}'
+        ");
+    }
+
 
     function recuperar($id)
     {
@@ -33,6 +41,8 @@ class Base
         ");
         $registro = $query->recuperar();
         $this->inicializar($registro);
+
+        return $registro;
     }
 
     function insertar($registro)
@@ -64,4 +74,88 @@ class Base
 
         return $query->getLastInsertId();
     }
+
+
+    function actualizar($datos,$id)
+    {
+
+        $updates = '';
+        foreach($datos as $clave => $valor)
+        {
+            $updates = "{$clave} = '{$valor}',";
+        }
+
+        $sql = "
+            UPDATE {$this->tabla}
+
+            SET  {$updates}
+                 ip_modi    = '{$this->ip}'
+                ,fecha_modi = now()
+            WHERE id = '{$id}'
+        ";
+
+        $query = new Query($sql);
+
+        return $query->total;
+
+
+    }
+
+
+    function get_rows($consulta=[])
+    {
+        $select = is_null($consulta['select']) ? '*': $consulta['select'];
+
+        $limit  = is_null($consulta['limit'])  ? '' : 'LIMIT '. $consulta['limit'];
+        $offset = is_null($consulta['offset']) ? '' : 'OFFSET '. $consulta['offset'];
+
+        $where = '';
+        if(!is_null($consulta['where']))
+        {
+            foreach($consulta['where'] as $clave => $valor)
+            {
+                $where .= " {$clave} = '{$valor}' AND";
+            }
+            $where = substr($where,0,-4);
+        }
+
+        $wheremayor = '';
+        if(!is_null($consulta['wheremayor']))
+        {
+
+            foreach($consulta['wheremayor'] as $clave => $valor)
+            {
+                $wheremayor .= " {$clave} > '{$valor}' AND";
+            }
+            $wheremayor = substr($wheremayor,0,-4);
+        }
+
+
+        if (!is_null($where) or !is_null($wheremayor))
+        {
+            $sqlwhere = 'WHERE '. $where . $wheremayor;
+        }
+
+        $sql = "
+            SELECT {$select}
+            FROM {$this->tabla}
+            {$sqlwhere}
+            {$limit}
+            {$offset}
+        ";
+
+        $query = new Query($sql);
+
+        $devolver = [];
+        while ($registro = $query->recuperar())
+        {
+            $devolver[] = $registro;
+        }
+
+        return $devolver;
+
+
+    }
+
+
 }
