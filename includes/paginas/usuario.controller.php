@@ -251,6 +251,8 @@ class UsuarioController
             ,'offset' => $offset
         ]);
 
+        
+
 
         $listado_usuarios= '';
         $total_registros = 0;

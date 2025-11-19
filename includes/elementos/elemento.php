@@ -17,12 +17,18 @@ class Elemento
     function pintar()
     {
         if ($this->disabled)
-            $this->disabled = ' disabled="disabled" ';
+            $this->disabled = ' readonly="readonly" ';
 
         if($this->error)
         {
             $this->literal_error = ' <span class="error">'. Idioma::lit('valor_obligatorio') .'</span>';
-            $this->style_error   = 'error';
+            $this->style   = 'error';
+        }
+
+        if ($this->disabled)
+        {
+            $this->disabled = ' readonly="readonly" ';
+            $this->style   = ' disabled';
         }
 
         if($this->esqueleto)
@@ -38,7 +44,7 @@ class Elemento
         return "
             {$previo_envoltorio}
                 {$this->literal_error}
-                <input {$this->disabled} value=\"". Campo::val($this->nombre) ."\" name=\"{$this->nombre}\" type=\"{$this->type}\" class=\"{$this->style_error} form-control\" id=\"id{$this->nombre}\" placeholder=\"". Idioma::lit('placeholder'.$this->nombre)."\">
+                <input {$this->disabled} value=\"". Campo::val($this->nombre) ."\" name=\"{$this->nombre}\" type=\"{$this->type}\" class=\"{$this->style} form-control\" id=\"id{$this->nombre}\" placeholder=\"". Idioma::lit('placeholder'.$this->nombre)."\">
             {$post_envoltorio}
         ";
     }

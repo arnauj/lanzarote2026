@@ -23,3 +23,7 @@ input.error{
 .centrado{
     text-align:center
 }
+
+.disabled{
+    background-color: #ebebeb;
+}

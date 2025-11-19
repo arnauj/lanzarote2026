@@ -7,6 +7,7 @@
         {
             $datos['type']      = 'hidden';
             $datos['esqueleto'] = False;
+            $datos['disabled']  = '';
             
             parent::__construct($datos);
 
