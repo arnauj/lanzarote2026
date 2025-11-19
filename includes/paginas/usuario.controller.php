@@ -149,7 +149,6 @@ class UsuarioController
             $usuario = new Usuario();
             $registro = $usuario->recuperar(Campo::val('id'));
 
-            $registro = $query->recuperar();
 
             self::sincro_form_bbdd($registro);
 
@@ -245,7 +244,7 @@ class UsuarioController
         $usuario = new Usuario();
 
         $datos_consulta = $usuario->get_rows([
-            'wheremayor' => [
+             'wheremayor' => [
                 'fecha_baja' => date('Ymd')
             ]
             ,'limit'  => LISTADO_TOTAL_POR_PAGINA

@@ -36,7 +36,7 @@ class Base
 
         $query = new Query("
             SELECT * 
-            FROM '". $this->tabla ."'
+            FROM ". $this->tabla ."
             WHERE id = '{$id}'
         ");
         $registro = $query->recuperar();
