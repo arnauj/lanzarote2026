@@ -40,13 +40,17 @@ class UsuarioController
         }
 
       
-        
+
+        if (Campo::val('modo') != 'ajax')
+        {
+            $h1cabecera = "<h1>". Idioma::lit('titulo'.Campo::val('oper'))." ". Idioma::lit(Campo::val('seccion')) ."</h1>";
+        }
 
       
         return "
         <div class=\"container contenido\">
         <section class=\"page-section usuarios\" id=\"usuarios\">
-            <h1>". Idioma::lit('titulo'.Campo::val('oper'))." ". Idioma::lit(Campo::val('seccion')) ."</h1>
+            {$h1cabecera}
             {$contenido}
             {$volver}
         </section>
@@ -260,7 +264,7 @@ class UsuarioController
         {
 
             $botonera = "
-                <a href=\"/usuarios/cons/{$registro['id']}\" class=\"btn btn-secondary\"><i class=\"bi bi-search\"></i></a>
+                <a  data-bs-toggle=\"modal\" data-bs-target=\"#ventanaModal\" class=\"btn btn-secondary\"><i class=\"bi bi-search\"></i></a>
                 <a href=\"/usuarios/modi/{$registro['id']}\" class=\"btn btn-primary\"><i class=\"bi bi-pencil-square\"></i></a>
                 <a href=\"/usuarios/baja/{$registro['id']}\" class=\"btn btn-danger\"><i class=\"bi bi-trash\"></i></a>
             ";

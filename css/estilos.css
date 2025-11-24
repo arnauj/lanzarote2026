@@ -27,3 +27,12 @@ input.error{
 .disabled{
     background-color: #ebebeb;
 }
+
+#loading {
+    display:none;
+    position: absolute;
+    left: 50%;
+    top: 45%;
+}
+
+.modal-body .page-section

@@ -4,8 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
 </head>
 <body>
     <h1>Hola mundo</h1>
+
+
+    <form id="prueba">
+        <input type="hidden" name="paso" value="1" />
+        <input type="text" name="nombre" value="Andrés" />
+        <input type="text" name="apellidos" value="García" />
+        <input type="email" name="email" value="andres@gmail.com" />
+    </form>
+
+
+    <script type="text/javascript">
+        var formulario = document.getElementById("prueba");
+        // Crea un objeto FormData
+        var formData = new FormData(formulario);
+        // Itera sobre los datos del formulario
+        formData.forEach(function(value, key) {
+            console.log(key + ": " + value);
+        });
+    </script>
 </body>
 </html>
