@@ -35,4 +35,6 @@ input.error{
     top: 45%;
 }
 
-.modal-body .page-section
+.modal-body .page-section{
+    padding: 0 !important;
+}

@@ -12,7 +12,7 @@ class UsuarioController
     static function pintar()
     {
         $contenido = '';
-        $volver = "<a style=\"float:right\" href=\"/usuarios/\" class=\"btn btn-light\"><i class=\"bi bi-arrow-return-left\"></i> ".Idioma::lit('volver')."</a>";
+
 
 
 
@@ -52,7 +52,6 @@ class UsuarioController
         <section class=\"page-section usuarios\" id=\"usuarios\">
             {$h1cabecera}
             {$contenido}
-            {$volver}
         </section>
         </div>
         
@@ -264,8 +263,8 @@ class UsuarioController
         {
 
             $botonera = "
-                <a  data-bs-toggle=\"modal\" data-bs-target=\"#ventanaModal\" class=\"btn btn-secondary\"><i class=\"bi bi-search\"></i></a>
-                <a href=\"/usuarios/modi/{$registro['id']}\" class=\"btn btn-primary\"><i class=\"bi bi-pencil-square\"></i></a>
+                <a onclick=\"fetchJSON('/usuarios/cons/{$registro['id']}?modo=ajax')\" data-bs-toggle=\"modal\" data-bs-target=\"#ventanaModal\" class=\"btn btn-secondary\"><i class=\"bi bi-search\"></i></a>
+                <a onclick=\"fetchJSON('/usuarios/modi/{$registro['id']}?modo=ajax')\" data-bs-toggle=\"modal\" data-bs-target=\"#ventanaModal\" class=\"btn btn-primary\"><i class=\"bi bi-pencil-square\"></i></a>
                 <a href=\"/usuarios/baja/{$registro['id']}\" class=\"btn btn-danger\"><i class=\"bi bi-trash\"></i></a>
             ";
 
