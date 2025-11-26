@@ -56,7 +56,7 @@ class Formulario
 
         return "
             {$mensaje_exito}
-            <form action=\"{$action}\" method=\"$method\" >
+            <form id=\"formGeneral\" action=\"{$action}\" method=\"$method\" >
             {$contenido}
             {$boton_enviar}
             </form>
