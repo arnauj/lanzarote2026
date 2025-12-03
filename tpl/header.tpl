@@ -17,6 +17,7 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="/assets/plantilla/css/styles.css" rel="stylesheet" />
         <link href="/css/estilos.css" rel="stylesheet" />
+
     </head>
     <body id="page-top">
         <div id="loading">

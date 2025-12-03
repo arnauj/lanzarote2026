@@ -12,9 +12,12 @@ class Elemento
         $this->disabled      = empty($datos['disabled'])       ? ''    : $datos['disabled'];
        
         $this->esqueleto     = is_null($datos['esqueleto'])    ? True  : $datos['esqueleto'];
+
+        $this->options       = empty($datos['options'])        ? False : $datos['options'];
     }
 
-    function pintar()
+
+    protected function previo_pintar()
     {
         if ($this->disabled)
             $this->disabled = ' readonly="readonly" ';
@@ -33,19 +36,26 @@ class Elemento
 
         if($this->esqueleto)
         {
-            $previo_envoltorio = "
+            $this->previo_envoltorio = "
             <div class=\"mb-3\">
                 <label for=\"id{$this->nombre}\" class=\"form-label\">". Idioma::lit($this->nombre)."</label>
             ";
-            $post_envoltorio = "</div>";
+            $this->post_envoltorio = "</div>";
         }
+    }
+
+    function pintar()
+    {
+
+        $this->previo_pintar();
+
 
 
         return "
-            {$previo_envoltorio}
+            {$this->previo_envoltorio}
                 {$this->literal_error}
                 <input {$this->disabled} value=\"". Campo::val($this->nombre) ."\" name=\"{$this->nombre}\" type=\"{$this->type}\" class=\"{$this->style} form-control\" id=\"id{$this->nombre}\" placeholder=\"". Idioma::lit('placeholder'.$this->nombre)."\">
-            {$post_envoltorio}
+            {$this->post_envoltorio}
         ";
     }
 

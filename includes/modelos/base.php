@@ -132,7 +132,8 @@ class Base
         }
 
 
-        if (!is_null($where) or !is_null($wheremayor))
+
+        if ($where != ''  || $wheremayor != '')
         {
             $sqlwhere = 'WHERE '. $where . $wheremayor;
         }

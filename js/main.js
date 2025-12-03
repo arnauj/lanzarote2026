@@ -45,3 +45,51 @@ function fetchJSON(url,modo="") {
         hideLoading(); // Ocultar loading
     });
 }
+
+
+
+function fetchHTML(url,id,modo="") {
+    showLoading(); // Mostrar loading
+
+
+    let formData = '';
+
+    if (modo == 'formulario')
+    {
+        let formulario = document.getElementById("formGeneral");
+        formData = new FormData(formulario);
+    }
+
+
+    fetch(url,{
+        method: 'POST'
+       ,body: formData
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        return response.text(); // Convertir respuesta a TEXT
+    })
+    .then(data => {
+        id.innerHTML = data;
+    })
+    .catch(error => {
+        id.innerHTML = `<p style="color: red;">Error insesperado<br />Error:
+        ${error.message}</p>`;
+    })
+    .finally(() => {
+        hideLoading(); // Ocultar loading
+    });
+}
+
+
+document.querySelector("#idcalendario_curso").addEventListener("change", (evento) => {
+
+    fetchHTML('/calendario/'+ evento.target.value, document.getElementById('place_calendario'));
+
+
+
+
+
+
+});
